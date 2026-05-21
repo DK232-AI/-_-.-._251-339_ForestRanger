@@ -10,66 +10,48 @@
 
     <!-- Шапка сайта (одинаковая для всех страниц) -->
     <header>
-        <h1>Forest Ranger</h1>
-        <nav>
-            <a href="index.html">Главная</a>
-            <a href="about.html">О проекте</a>
-            <a href="index.html#team">Участники</a>
-            <a href="index.html#journal">Журнал</a>
-            <a href="resources.html">Ресурсы</a>
-        </nav>
-    </header>
+        <!-- ГЛАВНЫЙ БАННЕР -->
+    <div class="hero-banner">
+        <div class="hero-banner-content">
+            <h2>Добро пожаловать в тайгу</h2>
+            <p>Защищай природу. Раскрой тайну. Выживи.</p>
+        </div>
+    </div>
 
-    <!-- Главная страница -->
+    <!-- Главная страница (Аннотация) -->
     <section id="home" class="section">
         <h2>Аннотация проекта</h2>
         <p><strong>Forest Ranger</strong> — это разрабатываемая мобильная игра в жанре экшн-приключения. Игрок берет на себя роль егеря, чья задача — защищать лесные угодья от браконьеров, предотвращать лесные пожары и следить за экосистемой. Игра планируется к релизу на российских платформах (например, RuStore) по модели Pay-to-play (единоразовая покупка). Наш проект направлен на популяризацию защиты окружающей среды через увлекательный геймплей и захватывающий сюжет.</p>
     </section>
 
+    <!-- Секция Журнал на главной -->
+    <section id="journal" class="section">
+        <h2>Журнал разработки</h2>
+        
+        <!-- КАРТИНКА ДЛЯ ЖУРНАЛА -->
+        <img src="img/journal.jpg" alt="Дневник разработки" class="content-image">
+
     <!-- Участники (остаются разделом на главной) -->
     <section id="team" class="section dark-bg">
         <h2>Участники проекта</h2>
-        <div class="card">
-            <h3>Дмитриев Кирилл Денисович</h3>
-            <p><strong>Роль:</strong> Главный геймдизайнер, Тимлид проекта.</p>
-            <h3>Баляева Марьяна Денисовна</h3>
-            <p><strong>Роль:</strong> 2D Дизайнер.</p>
-            <h3>Бондарчук Владимир Олегович</h3>
-            <p><strong>Роль:</strong> Проект менеджер.</p>
-            <h3>Воловик Дарья Сергеевна</h3>
-            <p><strong>Роль:</strong> Геймдизайнер.</p>
-            <h3>Гридчина Анна Александровна</h3>
-            <p><strong>Роль:</strong> Разработчик.</p>
-            <h3>Жирнов Артем Михайлович</h3>
-            <p><strong>Роль:</strong> QA тестировщик.</p>
-            <h3>Искоростинская Мария Алексеевна</h3>
-            <p><strong>Роль:</strong> 2D Дизайнер.</p>
-            <h3>Казакова Диана Александровна</h3>
-            <p><strong>Роль:</strong> 2D Дизайнер.</p>
-            <h3>Кирсанова Александра Олеговна</h3>
-            <p><strong>Роль:</strong> Сценарист.</p>
-            <h3>Мурин Игорь Игоревич</h3>
-            <p><strong>Роль:</strong> Технический директор.</p>
-            <h3>Опарин Георгий Игоревич</h3>
-            <p><strong>Роль:</strong> Левел-дизайнер.</p>
-            <h3>Рябчук Иван Денисович</h3>
-            <p><strong>Роль:</strong> Разработчик.</p>
-            <h3>Семисынов Егор Дмитриевич</h3>
-            <p><strong>Роль:</strong> ---.</p>
-            <h3>Ситникова Валерия Владимировна</h3>
-            <p><strong>Роль:</strong> ---.</p>
-            <h3>Соколов Демьян Евгеньевич</h3>
-            <p><strong>Роль:</strong> Звуковой дизайнер.</p>
-            <h3>Степанов Станислав Сергеевич</h3>
-            <p><strong>Роль:</strong> ---.</p>
-            <h3>Титова Анна Александровна</h3>
-            <p><strong>Роль:</strong> 2D Дизайнер.</p>
-            <h3>Тишина Кира Константиновна</h3>
-            <p><strong>Роль:</strong> Сценарист.</p>
-            <h3>Томашева Анна Владимировна</h3>
-            <p><strong>Роль:</strong> UI дизайнер.</p>
-            <h3>Чиканчи Ирина Викторовна</h3>
-            <p><strong>Роль:</strong> Арт директор.</p>
+        <div class="card-grid">
+            <div class="member-card"><h3>Дмитриев К.Д.</h3><p><strong>Роль:</strong> Главный геймдизайнер, Тимлид</p></div>
+            <div class="member-card"><h3>Баляева М.Д.</h3><p><strong>Роль:</strong> 2D Дизайнер</p></div>
+            <div class="member-card"><h3>Бондарчук В.О.</h3><p><strong>Роль:</strong> Проект менеджер</p></div>
+            <div class="member-card"><h3>Воловик Д.С.</h3><p><strong>Роль:</strong> Геймдизайнер</p></div>
+            <div class="member-card"><h3>Гридчина А.А.</h3><p><strong>Роль:</strong> Разработчик</p></div>
+            <div class="member-card"><h3>Жирнов А.М.</h3><p><strong>Роль:</strong> QA тестировщик</p></div>
+            <div class="member-card"><h3>Искоростинская М.А.</h3><p><strong>Роль:</strong> 2D Дизайнер</p></div>
+            <div class="member-card"><h3>Казакова Д.А.</h3><p><strong>Роль:</strong> 2D Дизайнер</p></div>
+            <div class="member-card"><h3>Кирсанова А.О.</h3><p><strong>Роль:</strong> Сценарист</p></div>
+            <div class="member-card"><h3>Мурин И.И.</h3><p><strong>Роль:</strong> Технический директор</p></div>
+            <div class="member-card"><h3>Опарин Г.И.</h3><p><strong>Роль:</strong> Левел-дизайнер</p></div>
+            <div class="member-card"><h3>Рябчук И.Д.</h3><p><strong>Роль:</strong> Разработчик</p></div>
+            <div class="member-card"><h3>Соколов Д.Е.</h3><p><strong>Роль:</strong> Звуковой дизайнер</p></div>
+            <div class="member-card"><h3>Титова А.А.</h3><p><strong>Роль:</strong> 2D Дизайнер</p></div>
+            <div class="member-card"><h3>Тишина К.К.</h3><p><strong>Роль:</strong> Сценарист</p></div>
+            <div class="member-card"><h3>Томашева А.В.</h3><p><strong>Роль:</strong> UI дизайнер</p></div>
+            <div class="member-card"><h3>Чиканчи И.В.</h3><p><strong>Роль:</strong> Арт директор</p></div>
         </div>
     </section>
 
