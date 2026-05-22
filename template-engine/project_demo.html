@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Презентация проекта: Шаблонизатор на Python</title>
+    <!-- Подключаем шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Стили для подсветки кода -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <!-- Наши собственные стили -->
+    <link rel="stylesheet" href="demo_style.css">
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <div class="badge">Проектная практика</div>
+            <h1>Компилирующий шаблонизатор на Python</h1>
+            <p class="subtitle">Разработка производительного движка рендеринга с защитой от XSS и конвейерными фильтрами</p>
+            <div class="meta-info">
+                <span><strong>Автор:</strong> Дмитриев К.Д.</span>
+                <span><strong>Группа:</strong> 251-339</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- СЕКЦИЯ 1: ВИДЕОПРЕЗЕНТАЦИЯ -->
+        <section class="card video-section">
+            <h2>Видеопрезентация проекта</h2>
+            <p class="section-desc">Краткий обзор архитектуры, разбор ключевых функций и демонстрация работы в реальном времени.</p>
+            
+            <div class="video-wrapper">
+                <!-- Замените "presentation.mp4" на имя своего видеофайла -->
+                <video controls poster="https://images.unsplash.com/photo-1618401471353-b98aedd07871?auto=format&fit=crop&w=1200&q=80">
+                    <source src="presentation.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает встроенные видео.
+                </video>
+            </div>
+        </section>
+
+        <!-- СЕКЦИЯ 2: ЦЕЛЬ И ЗАДАЧИ -->
+        <section class="grid-2">
+            <div class="card">
+                <h2>Цель проекта</h2>
+                <p>Исследование принципов динамической кодогенерации (компиляции шаблонов) в оперативной памяти и создание безопасного, быстрого шаблонизатора на языке Python без использования тяжелых сторонних библиотек.</p>
+            </div>
+            <div class="card">
+                <h2>Решенные задачи</h2>
+                <ul class="task-list">
+                    <li>Спроектирован лексический анализатор (парсер регулярных выражений).</li>
+                    <li>Разработан генератор кода CodeBuilder, управляющий синтаксическими отступами Python.</li>
+                    <li>Реализована компиляция "на лету" с помощью встроенной функции exec().</li>
+                    <li>Добавлена автозащита от XSS-уязвимостей.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- СЕКЦИЯ 3: ТВОРЧЕСКОЕ ЗАДАНИЕ (МОДИФИКАЦИЯ) -->
+        <section class="card creative-section">
+            <div class="creative-header">
+                <h2>Творческое задание (Модификация технологии)</h2>
+                <span class="tech-badge">Модифицированная версия</span>
+            </div>
+            <p>Базовые шаблонизаторы уязвимы к вредоносному коду (XSS-атакам) и не умеют преобразовывать данные. Наша модификация решает эти проблемы на уровне архитектуры через класс ModifiedTemplate:</p>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>Автоматическая защита от XSS</h3>
+                    <p>Любые переменные, передаваемые в шаблон (например, ввод пользователя), автоматически экранируются с помощью функции html.escape(). Опасные теги превращаются в безопасный текст.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Конвейер фильтров (Pipeline)</h3>
+                    <p>Поддержка обработки данных прямо в шаблоне с помощью символа трубы "|". Например: {{ item | upper | reverse }} последовательно приведет текст к верхнему регистру, а затем перевернет его.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- СЕКЦИЯ 4: ДЕМОНСТРАЦИЯ КОДА -->
+        <section class="card">
+            <h2>Фрагмент реализации (engine.py)</h2>
+            <p class="section-desc">Ниже представлен точный участок кода класса ModifiedTemplate, отвечающий за разбор цепочки фильтров и автоматическое экранирование результатов.</p>
+            
+            <pre><code class="language-python">class ModifiedTemplate(Template):
+    """Модифицированный шаблонизатор с авто-экранированием HTML (XSS защита) и фильтрами."""
+    def _parse_tokens(self, tokens):
+        for token in tokens:
+            if not token:
+                continue
+            
+            # Обработка переменных с поддержкой фильтров и XSS-защиты
+            if token.startswith("{{"):
+                expression = token[2:-2].strip()
+                
+                if "|" in expression:
+                    parts = expression.split("|")
+                    var_name = parts[0].strip()
+                    filters_list = [p.strip() for p in parts[1:]]
+                    
+                    # Генерируем цепочку вызовов фильтров
+                    expr_str = var_name
+                    is_safe = False
+                    for f in filters_list:
+                        if f == "safe":
+                            is_safe = True
+                            continue
+                        if f in FILTERS:
+                            expr_str = f"FILTERS['{f}']({expr_str})"
+                    
+                    # Если фильтр "safe" не применен, экранируем HTML по умолчанию
+                    if not is_safe:
+                        self.code_builder.add_line(f"result.append(html.escape(str({expr_str})))")
+                    else:
+                        self.code_builder.add_line(f"result.append(str({expr_str}))")
+                else:
+                    # Экранирование переменной по умолчанию
+                    self.code_builder.add_line(f"result.append(html.escape(str({expression})))")
+            
+            # Логические блоки
+            elif token.startswith("{%"):
+                words = token[2:-2].strip().split()
+                instruction = words[0]
+                if instruction == "for":
+                    self.code_builder.add_line(f"for {' '.join(words[1:])}:")
+                    self.code_builder.indent()
+                elif instruction == "if":
+                    self.code_builder.add_line(f"if {' '.join(words[1:])}:")
+                    self.code_builder.indent()
+                elif instruction in ("endfor", "endif"):
+                    self.code_builder.dedent()
+            
+            # Статический текст
+            else:
+                safe_text = repr(token)
+                self.code_builder.add_line(f"result.append({safe_text})")</code></pre>
+        </section>
+
+        <!-- СЕКЦИЯ 5: РЕЗУЛЬТАТ ТЕСТИРОВАНИЯ -->
+        <section class="card">
+            <h2>Результат верификации системы</h2>
+            <p class="section-desc">Входные данные содержали опасный скрипт: &lt;script&gt;alert('dangerous xss')&lt;/script&gt;.</p>
+            
+            <div class="output-box">
+                <div class="output-header">Вывод консоли при запуске main.py:</div>
+                <pre><code class="language-html">&lt;!-- Обычный вывод переменной (Авто-экранирование включено) --&gt;
+&amp;lt;script&amp;gt;alert(&amp;#x27;dangerous xss&amp;#x27;)&amp;lt;/script&amp;gt;
+
+&lt;!-- Вывод с отменой экранирования через фильтр "safe" --&gt;
+&lt;script&gt;alert('dangerous xss')&lt;/script&gt;
+
+&lt;!-- Применение цепочки фильтров: reverse + upper --&gt;
+)&#x27;SSX SNOREGNAD&#x27;(TRELA&amp;gt;TPIRCS&amp;lt;</code></pre>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>© 2024 Проектная работа по созданию шаблонизатора. Студент Дмитриев К.Д.</p>
+            <p><a href="https://github.com/" target="_blank" class="git-link">Исходный код в репозитории</a></p>
+        </div>
+    </footer>
+
+    <!-- Подключаем скрипт для красивой подсветки кода -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>
